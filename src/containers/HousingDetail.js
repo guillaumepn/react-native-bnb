@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 250,
-    borderRadius: 3,
   },
   block: {
     borderBottomWidth: 1,
