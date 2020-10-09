@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HousingDetail from "./HousingDetail";
-import HousingList from "./HousingList";
+import HousingList from "./HousingList.Container";
 import SearchForm from "./SearchForm";
 import Profile from "./Profile";
 import Login from "./Login";

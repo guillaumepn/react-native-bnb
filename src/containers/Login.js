@@ -10,9 +10,6 @@ const Login = () => {
 
   const onLogin = () => {
     const response = login(email, password);
-    console.log("onLogin -> password", password);
-    console.log("onLogin -> email", email);
-    console.log("onLogin -> response", response);
     setApiResponse(response);
   };
 

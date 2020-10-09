@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   TouchableOpacity,
   Text,
@@ -7,38 +7,7 @@ import {
   SectionList,
 } from "react-native";
 
-import HousingListItem from "../components/HousingListItem";
-import housings from "../data/housings.json";
-
-const HousingList = ({ navigation }) => {
-  const [houses, setHouses] = useState(housings);
-  const sections = houses
-    .sort((a, b) => (a.listing.city > b.listing.city ? 1 : -1))
-    .reduce((acc, current) => {
-      const citySection = acc.find(
-        (section) => section.title === current.listing.city
-      );
-      if (citySection) {
-        citySection.data = [...citySection.data, current];
-        return acc;
-      }
-      return [
-        ...acc,
-        {
-          id: acc.length,
-          title: current.listing.city,
-          data: [current],
-          renderItem: ({ item }) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Detail", { housing: item })}
-            >
-              <HousingListItem housing={item} />
-            </TouchableOpacity>
-          ),
-        },
-      ];
-    }, []);
-
+const HousingListView = ({ navigation, sections, fetchHouses, loading }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.navigate("Search")}>
@@ -49,12 +18,14 @@ const HousingList = ({ navigation }) => {
       </TouchableOpacity>
 
       <SectionList
+        onRefresh={fetchHouses}
         sections={sections}
         keyExtractor={({ listing }) => listing.id}
         renderSectionHeader={({ section }) => (
           <Text style={styles.cityHeaderText}>{section.title}</Text>
         )}
         stickySectionHeadersEnabled={false}
+        refreshing={loading}
       />
     </View>
   );
@@ -84,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HousingList;
+export default HousingListView;
