@@ -6,6 +6,7 @@ const StarRating = ({ rating, size = 15 }) => {
     <View style={[styles.container, { height: size }]}>
       {Array.from({ length: 5 }).map((_, index) => (
         <Image
+          key={index}
           resizeMode="contain"
           source={
             index + 1 <= rating
