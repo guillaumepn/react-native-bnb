@@ -6,37 +6,41 @@ import {
   StyleSheet,
   View,
 } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 
 import HousingListItem from "../components/HousingListItem";
 import housings from "../data/housings.json";
 
-const HousingList = ({ onScreenChange }) => {
+const HousingList = ({ navigation }) => {
   const [houses, setHouses] = useState(housings);
   return (
     <ScrollView>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>&lt;</Text>
-        <Text style={styles.headerText}>Partout</Text>
-      </View>
+      <TouchableOpacity onPress={() => navigation.navigate("Search")}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>&lt;</Text>
+          <Text style={styles.headerText}>Partout</Text>
+        </View>
+      </TouchableOpacity>
 
-      {houses.map((housing) => (
-        <TouchableOpacity
-          key={housing.listing.id}
-          onPress={() => onScreenChange("detail", { housing })}
-        >
-          <HousingListItem housing={housing} />
-        </TouchableOpacity>
-      ))}
+      <FlatList
+        data={houses}
+        keyExtractor={(item) => item.listing.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Detail", { housing: item })}
+          >
+            <HousingListItem housing={item} />
+          </TouchableOpacity>
+        )}
+      />
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    position: "absolute",
     backgroundColor: "rgba(200, 200, 200, 0.5)",
     width: "100%",
-    zIndex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     borderWidth: 1,

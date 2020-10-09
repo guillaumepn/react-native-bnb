@@ -2,8 +2,8 @@ import React from "react";
 import { Text, StyleSheet, Image, View, TouchableOpacity } from "react-native";
 import StarRating from "../components/StarRating";
 
-const HousingDetail = ({ params, onScreenChange }) => {
-  const { housing } = params;
+const HousingDetail = ({ route, navigation }) => {
+  const { housing } = route.params;
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
@@ -70,7 +70,7 @@ const HousingDetail = ({ params, onScreenChange }) => {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => onScreenChange("list", {})}
+          onPress={() => navigation.navigate("List")}
         >
           <Text style={styles.buttonText}>Accueil</Text>
         </TouchableOpacity>

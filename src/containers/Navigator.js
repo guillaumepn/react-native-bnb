@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import HousingDetail from "./HousingDetail";
 import HousingList from "./HousingList";
+import SearchForm from "./SearchForm";
 
 const Navigator = () => {
   const [navigation, setNavigation] = useState({
@@ -9,27 +12,16 @@ const Navigator = () => {
     screenParams: {},
   });
 
-  const handleScreenChange = (page, params) => {
-    setNavigation({
-      currentScreen: page,
-      screenParams: params,
-    });
-  };
+  const Stack = createStackNavigator();
 
   return (
-    <>
-      {navigation.currentScreen === "list" ? (
-        <HousingList
-          onScreenChange={handleScreenChange}
-          params={navigation.screenParams}
-        />
-      ) : navigation.currentScreen === "detail" ? (
-        <HousingDetail
-          onScreenChange={handleScreenChange}
-          params={navigation.screenParams}
-        />
-      ) : null}
-    </>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="List" component={HousingList} />
+        <Stack.Screen name="Detail" component={HousingDetail} />
+        <Stack.Screen name="Search" component={SearchForm} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
