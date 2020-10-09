@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 
 import { API } from "../constants";
@@ -8,20 +8,7 @@ import { ActivityIndicator } from "react-native";
 const Map = () => {
   const [houses, setHouses] = useState({ loading: true, data: [] });
   const [location, setLocation] = useState(null);
-  console.log("Map -> location", location);
   const [errorMsg, setErrorMsg] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
 
   const fetchHouses = async () => {
     setHouses({ ...houses, loading: true });
@@ -36,6 +23,16 @@ const Map = () => {
 
   useEffect(() => {
     fetchHouses();
+
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
   }, []);
 
   return location ? (
@@ -47,7 +44,19 @@ const Map = () => {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}
-    />
+    >
+      {houses.data.map((house, index) => (
+        <Marker
+          key={index}
+          coordinate={{
+            latitude: house.listing.lat,
+            longitude: house.listing.lng,
+          }}
+          title={house.listing.name}
+          description={house.listing.description}
+        />
+      ))}
+    </MapView>
   ) : (
     <ActivityIndicator />
   );
