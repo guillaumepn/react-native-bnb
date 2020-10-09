@@ -8,6 +8,7 @@ import HousingList from "./HousingList.Container";
 import SearchForm from "./SearchForm";
 import Profile from "./Profile";
 import Login from "./Login";
+import Map from "./Map";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,12 +32,21 @@ const ProfileTab = () => {
   );
 };
 
+const MapTab = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Map" component={Map} />
+    </Stack.Navigator>
+  );
+};
+
 const Navigator = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen name="Explore" component={ExploreTab} />
         <Tab.Screen name="Profile" component={ProfileTab} />
+        <Tab.Screen name="Map" component={MapTab} />
       </Tab.Navigator>
     </NavigationContainer>
   );

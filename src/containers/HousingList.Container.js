@@ -7,14 +7,11 @@ import HousingListView from "./HousingList.View";
 
 const HousingList = ({ navigation }) => {
   const [houses, setHouses] = useState({ loading: true, data: [] });
+  console.log("HousingList -> houses", houses);
 
   const fetchHouses = async () => {
     setHouses({ ...houses, loading: true });
-    const response = await fetch(`${API}/housings`, {
-      headers: new Headers({
-        Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmODA1YzE5YjQ1MDQ5MDAxNjkxZTkyZCIsImlhdCI6MTYwMjI0NzcwNX0.pic-VM3TxvsXY9e_PInYGPTC1cchh0bM3yPKst7WhBk"}`,
-      }),
-    });
+    const response = await fetch(`${API}/housings/public`);
 
     setHouses({ loading: false, data: await response.json() });
   };
